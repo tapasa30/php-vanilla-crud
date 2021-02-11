@@ -1,0 +1,17 @@
+{
+    "name": "pablo/prueba",
+    "authors": [
+        {
+            "name": "Pablo",
+            "email": "pbc@thebyteflow.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Model\\": "./Model",
+            "Controller\\": "./Controller",
+            "Service\\": "./Services"
+        }
+    },
+    "require": {}
+}
