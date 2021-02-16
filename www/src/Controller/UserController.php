@@ -22,13 +22,16 @@ class UserController
 
     public function list()
     {
-        $users = $this->userService->getAllUsers();
+        $currentPage = $_GET['currentPage'] ?? 1;
+
+        $pagedUsers = $this->userService->getUsersWithPagination(5, $currentPage, '?controller=user&action=list');
 
         return $this->templateService->renderTemplate(
             'user/list.php',
             'Users list',
             [
-                'users' => $users,
+                'users' => $pagedUsers['users'],
+                'pager' => $pagedUsers['pager'],
                 'error' => $_GET['error'] ?? null
             ]
         );
@@ -41,7 +44,8 @@ class UserController
                 'user/show.php',
                 'Add user',
                 [
-                    'formMode' => 'create'
+                    'formMode' => 'create',
+                    'createError' => isset($_GET['createError'])
                 ]
             );
         }
@@ -52,9 +56,9 @@ class UserController
             'password' => $_POST['password'],
         ];
 
-        return $this->userService->createUser($userData)
-            ? header('Location: index.php?controller=user&action=list')
-            : header("Refresh:0")
+        return !empty($this->userService->createUser($userData))
+            ? header('Location: ?controller=user&action=list')
+            : header('Location: ?controller=user&action=create&createError=true')
         ;
     }
 
@@ -95,15 +99,26 @@ class UserController
     public function delete()
     {
         $usersIds = $_POST['users'] ? json_decode($_POST['users']) : null;
+        header('Content-Type: application/json');
 
         if (empty($usersIds)) {
-            return false;
+            header('HTTP/1.0 500 Error');
+            echo json_encode([
+                'error' => true,
+                'message' => 'Error removing users D:'
+            ]);
+
+            return;
         }
 
         foreach ($usersIds as $userId) {
             $this->userService->deleteUser($userId);
         }
 
-        return true;
+
+        echo json_encode([
+            'error' => false,
+            'message' => 'Users removed :D'
+        ]);
     }
 }

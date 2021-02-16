@@ -33,11 +33,9 @@ class AuthenticationController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-		if (!$this->authService->login($email, $password)) {
-		    return header('Location: index.php?controller=auth&action=login&error=true');
-		}
-
-        return header('Location: index.php?controller=user&action=list');
+        return !$this->authService->login($email, $password)
+            ? header('Location: index.php?controller=auth&action=login&error=true')
+            : header('Location: index.php?controller=user&action=list');
 	}
 
 	public function userLogout() {

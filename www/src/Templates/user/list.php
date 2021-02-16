@@ -53,5 +53,27 @@
         ?>
         <tr></tr>
         </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="4">
+                <div class="pager">
+                    <?php if (!empty($data['pager']['first']) && $data['pager']['currentPage'] !== 1) { ?>
+                        <a href="<?= $data['pager']['first']['url'] ?>" class="page-link-first"><</a>
+                    <? } ?>
+                    <?php foreach($data['pager']['pages'] as $page) { ?>
+                        <a
+                                href="<?= $page['url'] ?>"
+                                class="page-link-number<?= $page['active'] ? ' active' : '' ?>"
+                        >
+                            <?= $page['number'] ?>
+                        </a>
+                    <?php } ?>
+                    <?php if (!empty($data['pager']['last']) && $data['pager']['currentPage'] !== $data['pager']['last']['number']) { ?>
+                    <a href="<?= $data['pager']['last']['url'] ?>" class="page-link-last">></a>
+                    <? } ?>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
     </table>
 </div>

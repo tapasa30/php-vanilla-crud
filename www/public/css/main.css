@@ -19,7 +19,7 @@ header {
 
 footer {
     background-color: #2c3e50;
-    color: white;
+    color: #ffffff;
 }
 
 a {
@@ -43,25 +43,25 @@ button {
     font-size: 14px;
 }
 
-#content {
+.main-content {
     flex: 1;
     background-color: #ecf0f1;
 }
 
-#content > div {
+.main-content > div {
     margin: auto;
 }
 
-#login-page {
+.login-page {
     width: 360px;
     padding: 8% 0 0;
 }
 
-#login-page h2 {
+.login-page h2 {
     text-align: center;
 }
 
-form#login, .users-list table, form#user-form {
+form.user-login, .users-list table, .user-data form {
     position: relative;
     z-index: 1;
     background: #FFFFFF;
@@ -81,11 +81,11 @@ form input {
     font-size: 14px;
 }
 
-form#login input {
+form.user-login input {
     width: 100%;
 }
 
-form#login button {
+form.user-login button {
     width: 100%;
 }
 
@@ -109,9 +109,22 @@ form#login button {
     text-align: left;
 }
 
-.users-list table thead tr {
+.users-list table thead tr, .users-list table tfoot tr {
     background-color: #009879;
     color: #ffffff;
+}
+
+.users-list table tfoot tr {
+    text-align: center;
+}
+
+.pager a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.pager a.active {
+    color: #2c3e50;
 }
 
 .users-list table th,

@@ -6,7 +6,7 @@ use Model\User;
 
 class AuthenticationService {
 
-    public function login($email, $originalPassword) {
+    public function login($email, $originalPassword): bool {
         $userService = new UserService();
 
         $userId = $userService->getUserIdByLoginData($email, $originalPassword);

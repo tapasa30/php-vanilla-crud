@@ -2,7 +2,8 @@ document.getElementById('remove-user').addEventListener('click', function () {
     const userId = this.dataset.userId;
     const userName = this.dataset.userName;
 
-    removeUsers([{ id: userId, name: userName }]);
+    removeUsers([{ id:
+        userId, name: userName }]);
 });
 
 function removeSelectedUsers() {
@@ -39,12 +40,19 @@ function checkPasswordsEqual(form) {
 
     if (password1 === '') {
         alert ("Please enter Password");
+
         return false;
-    } else if (password2 === '') {
+    }
+
+    if (password2 === '') {
         alert ("Please repeat password");
+
         return false;
-    } else if (password1 !== password2) {
+    }
+
+    if (password1 !== password2) {
         alert ("\nPasswords not matching")
+
         return false;
     }
 
@@ -52,7 +60,6 @@ function checkPasswordsEqual(form) {
 }
 
 function sendPost(url, data) {
-    console.log(data);
     const xhr = new XMLHttpRequest();
 
     xhr.open('POST', url);
@@ -60,10 +67,17 @@ function sendPost(url, data) {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            location.reload();
-        } else if (xhr.status !== 200) {
-            alert(xhr.responseText);
+            const responseText = JSON.parse(xhr.responseText);
+
+            if (!responseText.error) {
+                alert(responseText.message);
+                window.location.href = '?controller=user&action=list';
+
+                return;
+            }
         }
+
+        alert('Error removing user');
     };
 
     xhr.send(data);

@@ -23,7 +23,7 @@ if ($canAccessSite) {
 }
 ?>
 
-<div id="content">
+<div class="main-content">
     <?= $templateContent ?? '' ?>
 </div>
 

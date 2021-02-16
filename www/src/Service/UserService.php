@@ -7,14 +7,16 @@ use Model\User;
 class UserService {
 
 	private $databaseService;
+	private $pagerService;
 
 	public function __construct() {
 		$this->databaseService = new DatabaseService();
+		$this->pagerService = new PagerService();
 	}
 
-	public function getAllUsers(): array {
+	public function getUsersWithPagination(int $itemsPerPage, int $currentPage, string $baseUrl): array {
         $users = [];
-        $allUsersQuery = 'SELECT id, email, name FROM user';
+        $allUsersQuery = sprintf('SELECT id, email, name FROM user ORDER BY id LIMIT %s, %s', (($currentPage - 1) * $itemsPerPage), $itemsPerPage);
         $usersData = $this->databaseService->query($allUsersQuery);
 
         if (!empty($usersData)) {
@@ -23,10 +25,15 @@ class UserService {
             }, $usersData);
         }
 
-        return $users;
+        $totalUsersCount = $this->getTotalUsers();
+
+        return [
+            'users' => $users,
+            'pager' => $this->pagerService->buildPagination($itemsPerPage, $currentPage, ceil($totalUsersCount / $itemsPerPage), $baseUrl)
+        ];
     }
 
-    public function createUser($userData) {
+    public function createUser($userData): ?bool {
         $encryptedPassword = $this->encryptPassword($userData['password']);
         $createUserQuery = sprintf(
             'INSERT INTO user (name, email, password) VALUES (\'%s\', \'%s\', \'%s\')',
@@ -35,7 +42,7 @@ class UserService {
         return $this->databaseService->query($createUserQuery);
     }
 
-    public function updateUser(int $userId, array $newData): bool {
+    public function updateUser(int $userId, array $newData): ?bool {
         $updateUserQuery = sprintf(
             'UPDATE user set name=\'%s\', email=\'%s\', password=\'%s\' WHERE id = \'%s\'',
             $newData['name'], $newData['email'], $newData['password'], $userId
@@ -48,6 +55,13 @@ class UserService {
         $removeUserQuery = "DELETE FROM user WHERE id = $id";
 
         return $this->databaseService->query($removeUserQuery);
+    }
+
+    public function getTotalUsers() {
+        $allUsersQuery = sprintf('SELECT COUNT(*) as totalUsers FROM user');
+        $usersData = $this->databaseService->query($allUsersQuery);
+
+        return $usersData ? $usersData[0]['totalUsers'] : 0;
     }
 
 	public function getUserIdByLoginData(string $email, string $originalPassword): ?int {

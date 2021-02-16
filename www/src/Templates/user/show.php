@@ -6,7 +6,13 @@
         </div>
     </div>
 
-    <form id="user-form" name="user-<?= $data['formMode'] ?? 'edit' ?>" method="post" onsubmit="return checkPasswordsEqual(this)">
+    <?php if (isset($data['createError']) && !empty($data['createError'])) { ?>
+        <div class="error">
+            <p>Error creating user</p>
+        </div>
+    <?php } ?>
+
+    <form class="user-form" name="user-<?= $data['formMode'] ?? 'edit' ?>" method="post" onsubmit="return checkPasswordsEqual(this)">
         <div class="data-container">
             <input placeholder="Name" id="name" type="text" name="name" required
                    value="<?= isset($data['user']) && $data['user'] instanceof \Model\User ? $data['user']->getName() : '' ?>">

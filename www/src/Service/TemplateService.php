@@ -12,7 +12,7 @@ class TemplateService
     }
 
     public function renderTemplate($template, $pateTitle, $data = []) {
-        $templatePath = '../Templates/' . $template;
+        $templatePath = dirname(__DIR__) . '/Templates/' . $template;
 
         if (!file_exists($templatePath)) {
             return false;
@@ -21,10 +21,10 @@ class TemplateService
         $canAccessSite = $this->authService->canAccessSite();
 
         ob_start();
-        include ($templatePath);
+        require_once($templatePath);
         $templateContent = ob_get_contents();
         ob_end_clean();
 
-        return include('../Templates/base/baseTemplate.php');
+        return require_once(dirname(__DIR__) . '/Templates/base/baseTemplate.php');
     }
 }

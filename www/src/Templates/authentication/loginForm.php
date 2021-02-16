@@ -1,4 +1,4 @@
-<div id="login-page">
+<div class="login-page">
     <h2>Wellcome</h2>
 
     <?php
@@ -11,7 +11,7 @@
     }
     ?>
 
-    <form action="" method="post" id="login">
+    <form method="post" class="user-login">
         <input id="email" type="text" name="email" placeholder="Email">
         <input id="password" type="password" name="password" placeholder="Password">
 

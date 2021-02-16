@@ -26,13 +26,15 @@ class DatabaseService
 
     public function query($query)
     {
-        if ($results = $this->connection->query($query)) {
+        $results = $this->connection->query($query);
+
+        if ($results === true || (!empty($results) && ($results instanceof mysqli_result))) {
             return $results instanceof mysqli_result
-                ?  $results->fetch_all(MYSQLI_ASSOC)
-                : $results
+                ? $results->fetch_all(MYSQLI_ASSOC)
+                : true
             ;
         }
 
-        return null;
+        return false;
     }
 }

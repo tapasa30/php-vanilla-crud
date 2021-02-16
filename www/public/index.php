@@ -8,21 +8,15 @@ use Controller\AuthenticationController;
 use Controller\UserController;
 use Service\AuthenticationService;
 
-if (empty($_GET['controller']) || empty($_GET['action'])) { // or method
-    header("HTTP/1.0 404 Not Found");
-
-    return;
-}
-
 if ($_GET['controller'] == 'auth') {
     $authController = new AuthenticationController();
 
     if ($_GET['action'] == 'login') {
-        return $authController->userLogin();
+        $authController->userLogin();
     }
 
     if ($_GET['action'] == 'logout') {
-        return $authController->userLogout();
+        $authController->userLogout();
     }
 }
 
@@ -30,7 +24,7 @@ if ($_GET['controller'] == 'user') {
     $authService = new AuthenticationService();
 
     if (!$authService->canAccessSite()) {
-        header("HTTP/1.0 403 Permission denied");
+        header('HTTP/1.0 403 Permission denied');
 
         return;
     }
@@ -38,20 +32,23 @@ if ($_GET['controller'] == 'user') {
     $userController = new UserController();
 
     if ($_GET['action'] == 'list') {
-        return $userController->list();
+        $userController->list();
     }
 
     if ($_GET['action'] == 'create') {
-        return $userController->create();
+        $userController->create();
     }
 
     if ($_GET['action'] == 'show') {
-        return $userController->show();
+        $userController->show();
     }
 
     if ($_GET['action'] == 'delete') {
-        return $userController->delete();
+        $userController->delete();
     }
 }
 
-header("HTTP/1.0 404 Not Found");
+if (empty($_GET['controller']) || empty($_GET['action'])) {
+    header('HTTP/1.0 404 Not Found');
+}
+
