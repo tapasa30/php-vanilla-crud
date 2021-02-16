@@ -8,7 +8,7 @@ use Controller\AuthenticationController;
 use Controller\UserController;
 use Service\AuthenticationService;
 
-if ($_GET['controller'] == 'auth') {
+if (isset($_GET['controller']) && ($_GET['controller'] == 'auth') && isset($_GET['action'])) {
     $authController = new AuthenticationController();
 
     if ($_GET['action'] == 'login') {
@@ -20,7 +20,7 @@ if ($_GET['controller'] == 'auth') {
     }
 }
 
-if ($_GET['controller'] == 'user') {
+if ($_GET['controller'] == 'user' && isset($_GET['action'])) {
     $authService = new AuthenticationService();
 
     if (!$authService->canAccessSite()) {
