@@ -1,7 +1,14 @@
-# PHP test
+#PHP test
 
 To start, run this command
 ```
-$ ./start.sh
+$ docker-compose up
 ```
+
 Then you can visit: http://localhost?controller=auth&action=login
+
+##Login
+
+**User:** demo@user.es
+
+**Password:** 123
