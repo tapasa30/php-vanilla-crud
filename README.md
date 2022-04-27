@@ -1,4 +1,4 @@
-# PHP test
+# PHP Vanilla CRUD
 
 To start, run this command
 ```
