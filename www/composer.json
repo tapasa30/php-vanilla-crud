@@ -1,9 +1,9 @@
 {
-    "name": "pablo/prueba",
+    "name": "tapasa/php-vanilla-crud",
     "authors": [
         {
-            "name": "Pablo",
-            "email": "pbc@thebyteflow.com"
+            "name": "tapasa",
+            "email": "tapasa@mail.com"
         }
     ],
     "autoload": {
